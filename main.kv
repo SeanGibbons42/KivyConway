@@ -1,0 +1,100 @@
+#:import utils kivy.utils
+#:import Factory kivy.factory.Factory
+#:include input.kv
+
+
+
+<RootWidget>:
+  canvas.before:
+    Color:
+      rgba: 1,1,1,1
+    Rectangle:
+      size: self.size
+      pos: self.pos
+
+  BoxLayout:
+    size_hint_x: 0.85
+    padding: [20, self.height*0.07]
+    BoxLayout:
+      canvas.before:
+        Color:
+          rgba: 0.95, 0.95, 0.95, 1
+        RoundedRectangle:
+          size: ( self.size[0], self.size[1])
+          pos: ( self.pos[0], self.pos[1])
+          radius: [(10, 10), (10, 10), (10, 10), (10, 10)]
+      padding: 10
+      CGoL_Board:
+        id: board
+
+  Controls:
+    id: control
+    size_hint_x: 0.15
+
+<CGoL_Board>:
+  offcolor: [1, 1, 0, 0]
+  oncolor: utils.get_color_from_hex("#4183f4")
+  # oncolor: [1, 1, 0, 1]
+  rows: 75
+  cols: 150
+
+  # on_touch_down: root.clicked(self.MotionEvent)
+
+<Controls>:
+  orientation: 'vertical'
+  spacing: 10
+  padding: 15
+  canvas.before:
+    Color:
+      rgba: 0.7, 0.7, 0.7, 1
+    Line:
+      points: [self.pos[0], self.pos[1]+50, self.pos[0], self.height-50]
+
+  Label:
+    size_hint_y: 0.2
+
+  InputBlock:
+    id: speed
+    size_hint_x: 0.8
+    pos_hint: {"x":0.1}
+    labeltext: "Speed"
+    inputtext: "1"
+    pcolor: utils.get_color_from_hex("#2da9ee")
+    tcolor: utils.get_color_from_hex("#f0f0f0")
+
+  Label:
+    size_hint_y: 0.2
+
+  InputBlock:
+    id: duration
+    labeltext: "Game Length"
+    inputtext: "10"
+    size_hint_x: 0.8
+    pos_hint: {"x":0.1}
+    pcolor: utils.get_color_from_hex("#2da9ee")
+    tcolor: utils.get_color_from_hex("#f0f0f0")
+
+  Label:
+    size_hint_y: 0.4
+
+  CGoL_Button:
+    text: "Start"
+    on_release: root.start()
+    # off_color: utils.get_color_from_hex("#6ce441")
+
+  Label:
+    size_hint_y: 0.2
+
+  CGoL_Button:
+    text: "Pause"
+    on_release: root.pause()
+
+  Label:
+    size_hint_y: 0.2
+
+  CGoL_Button:
+    text: "Reset"
+    on_release: root.reset()
+    # off_color: utils.get_color_from_hex("#6ce441")
+  Label:
+    size_hint_y: 0.3

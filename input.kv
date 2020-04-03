@@ -1,0 +1,131 @@
+#:import utils kivy.utils
+#:import Factory kivy.factory.Factory
+
+<InputBlockMaster@BoxLayout>:
+  pcolor: utils.get_color_from_hex("000000")
+  tcolor: utils.get_color_from_hex("d3d3d3")
+  fcolor_p: utils.get_color_from_hex("ffffff")
+  fcolor_t: utils.get_color_from_hex("000000")
+  font_size: 16
+  bold: True
+  corner: 10
+  labeltext: ""
+  inputtext: ""
+
+  orientation: 'vertical'
+
+<InputBlockHead@InputBlockMaster>:
+  BoxLayout:
+    canvas.before:
+      Color:
+        rgba: root.pcolor
+      RoundedRectangle:
+        pos: self.pos
+        size: self.size
+        radius: [(root.corner, root.corner), (root.corner, root.corner), (0, 0), (0, 0)]
+
+    Label:
+      text: root.labeltext
+      background_color: (0, 0, 0, 0)
+      foreground_color: root.fcolor_p
+      font_size: 0.35*self.height
+      bold: root.bold
+      #radius: (root.corner, root.corner)
+
+<InputBlock@InputBlockHead>:
+
+  BoxLayout:
+    canvas.before:
+      Color:
+        rgba: root.tcolor
+      RoundedRectangle:
+        pos: self.pos
+        size: self.size
+        radius: [(0, 0), (0, 0), (root.corner, root.corner), (root.corner, root.corner)]
+    TextInput:
+      background_color: 0, 0, 0, 0
+      foreground_color: root.fcolor_t
+      multiline: False
+      font_size: self.height-30
+      text: root.inputtext
+      on_text: root.inputtext = self.text
+
+
+<InputBlockUnits@InputBlockMaster>
+  ucolor: None
+
+  BoxLayout:
+    canvas.before:
+      Color:
+        rgba: root.tcolor
+      RoundedRectangle:
+        pos: self.pos
+        radius: self.size
+
+    TextInput:
+      background_color: 0, 0, 0, 0
+      foreground_color: root.fcolor_t
+      multiline: False
+      font_size: root.font_size
+
+    Label:
+      text: "nm"
+      background_color: root.ucolor
+      foreground_color: root.fcolor
+      size_hint_x: 0.33
+      radius: [(0, 0), (0, 0), (root.corner, root.corner),(0, 0)]
+
+<RoundedButtonHead>:
+  active_color: utils.get_color_from_hex("#d927c7")
+  inactive_color: utils.get_color_from_hex("#159335")
+  bcolor: self.inactive_color
+  radius: 10
+
+<RoundedButton>:
+  canvas.before:
+    Color:
+      rgba: root.bcolor
+    RoundedRectangle:
+      size: self.size
+      pos: self.pos
+      radius: [(root.radius, root.radius), (root.radius, root.radius), (root.radius, root.radius), (root.radius, root.radius)]
+
+  background_normal: ""
+  background_color: 0,0,0,0
+
+  on_press: root.color_change_click()
+  on_release: root.color_change_release()
+
+<CGoL_Button@RoundedButton>:
+  inactive_color: utils.get_color_from_hex("#6ce441")
+  active_color: utils.get_color_from_hex("#159335")
+  size_hint_x: 0.7
+  pos_hint: {"x":0.15}
+  bold: True
+  font_size: 24
+
+<CGol_Square_Head>:
+  border_width: 0
+  bcolor: 0, 0, 0, 1
+  oncolor: utils.get_color_from_hex("#eafe24")
+  offcolor: 1, 1, 1, 1
+  icolor: self.offcolor
+  radius: 5
+
+<CGol_Square>:
+
+  canvas.before:
+    Color:
+      rgba: root.bcolor
+    Rectangle:
+      size: self.size
+      pos: self.pos
+      # radius: [(root.radius, root.radius), (root.radius, root.radius), (root.radius, root.radius), (root.radius, root.radius)]
+    Color:
+      rgba: root.icolor
+    Rectangle:
+      size: self.width-2*root.border_width, self.height-2*root.border_width
+      pos: self.x + root.border_width, self.y + root.border_width
+      # radius: [(root.radius, root.radius), (root.radius, root.radius), (root.radius, root.radius), (root.radius, root.radius)]
+  background_color: 0,0,0,0
+  on_press: root.click()
